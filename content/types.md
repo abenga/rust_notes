@@ -57,9 +57,10 @@ Here, ${w}$ will be the word size of the platform in bits. For example, 64 on
 
 ### Signed Integers
 
-Signed numbers are stored using *two's complement* representation. This is where
-a number's most significant bit (called the *sign bit*) has negative sign. It 
-has weight $-1*2^{(w - 1)}$ where *w* is the size of the number in bits.
+Signed numbers are stored using *two's complement* representation. This is 
+where a number's most significant bit (called the *sign bit*) has negative sign. 
+It has weight $-1 \times 2^{(w - 1)}$ where ${w}$ is the size of the number in 
+bits.
 
 For an 8-bit number, -128 as bits would be:
 

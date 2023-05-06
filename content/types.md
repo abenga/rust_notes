@@ -52,7 +52,7 @@ These are whole numbers. Rust has the following built-in integer data types:
 |   `isize` | $-2^{(w-1)}$ | $2^{(w-1)}-1$ |
 |   `usize` |          $0$ |     $2^{w}-1$ |
 
-Here, *w* will be the word size of the platform in bits. For example, 64 on
+Here, ${w}$ will be the word size of the platform in bits. For example, 64 on
 64-bit machines. These are usually used when indexing some sort of collection.
 
 ### Signed Integers

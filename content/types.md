@@ -49,7 +49,7 @@ These are whole numbers. Rust has the following built-in integer data types:
 
 | Data Type |  Min Value  |   Max Value   |
 |-----------|-------------|---------------|
-|   `isize` |  $-2^(w-1)$ | $2^{(w-1)}-1$ |
+|   `isize` |  $-2^{(w-1)}$ | $2^{(w-1)}-1$ |
 |   `usize` |           0 |     $2^{w}-1$ |
 
 Here, *w* will be the word size of the platform in bits. For example, 64 on

@@ -40,17 +40,17 @@ These are whole numbers. Rust has the following built-in integer data types:
 
 * **128-bit numbers**
 
-| Data Type | Min Value |  Max Value |
-|-----------|-----------|------------|
-|    `i128` |$-2^{127}$ |$2^{127}-1$ |
-|    `u128` |         0 |$2^{128}-1$ |
+| Data Type | Min Value |  Max Value  |
+|-----------|-----------|-------------|
+|    `i128` |$-2^{127}$ | $2^{127}-1$ |
+|    `u128` |         0 | $2^{128}-1$ |
 
 * **Architecture dependent numbers**
 
-| Data Type |  Min Value  |  Max Value  |
-|-----------|-------------|-------------|
-|   `isize` |  $-2^(w-1)$ | $2^(w-1)-1$ |
-|   `usize` |         $0$ |     $2^w-1$ |
+| Data Type |  Min Value  |   Max Value   |
+|-----------|-------------|---------------|
+|   `isize` |  $-2^(w-1)$ | $2^{(w-1)}-1$ |
+|   `usize` |           0 |     $2^{w}-1$ |
 
 Here, *w* will be the word size of the platform in bits. For example, 64 on
 64-bit machines. These are usually used when indexing some sort of collection.

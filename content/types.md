@@ -12,22 +12,22 @@ These are whole numbers. Rust has the following built-in integer data types:
 
 | Data Type | Min Value | Max Value |
 |-----------|-----------|-----------|
-| `i8`      |      -128 |       127 |
-| `u8`      |         0 |       255 |
+| `i8`      |    $-128$ |     $127$ |
+| `u8`      |       $0$ |     $255$ |
 
 * **16-bit numbers**
 
 | Data Type | Min Value | Max Value |
 |-----------|-----------|-----------|
-| `i16`     |   -32,768 |    32,767 |
-| `u16`     |         0 |    65,535 |
+| `i16`     | $-32,768$ |  $32,767$ |
+| `u16`     |       $0$ |  $65,535$ |
 
 * **32-bit numbers**
 
-| Data Type |          Min Value         |           Max Value           |
-|-----------|----------------------------|-------------------------------|
-| `i32`     | -2,147,483,648 ($-2^{31}$) |    2,147,483,647 ($2^{31}-1$) |
-| `u32`     |                          0 |    4,294,967,295 ($2^{32}-1$) |
+| Data Type |           Min Value          |           Max Value           |
+|-----------|------------------------------|-------------------------------|
+| `i32`     | $-2,147,483,648$ ($-2^{31}$) |    2,147,483,647 ($2^{31}-1$) |
+| `u32`     |                          $0$ |    4,294,967,295 ($2^{32}-1$) |
 
 `i32` is the default integer size in Rust.
 
@@ -36,21 +36,21 @@ These are whole numbers. Rust has the following built-in integer data types:
 | Data Type |  Min Value  |  Max Value  |
 |-----------|-------------|-------------|
 | `i64`     |   $-2^{63}$ |  $2^{63}-1$ |
-| `u64`     |           0 |  $2^{64}-1$ |
+| `u64`     |         $0$ |  $2^{64}-1$ |
 
 * **128-bit numbers**
 
 | Data Type | Min Value |  Max Value  |
 |-----------|-----------|-------------|
 |    `i128` |$-2^{127}$ | $2^{127}-1$ |
-|    `u128` |         0 | $2^{128}-1$ |
+|    `u128` |       $0$ | $2^{128}-1$ |
 
 * **Architecture dependent numbers**
 
 | Data Type |   Min Value  |   Max Value   |
 |-----------|--------------|---------------|
 |   `isize` | $-2^{(w-1)}$ | $2^{(w-1)}-1$ |
-|   `usize` |            0 |     $2^{w}-1$ |
+|   `usize` |          $0$ |     $2^{w}-1$ |
 
 Here, *w* will be the word size of the platform in bits. For example, 64 on
 64-bit machines. These are usually used when indexing some sort of collection.

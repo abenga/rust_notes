@@ -3,5 +3,8 @@
 	"structs",
     "enums",
     "packaging",
-    "collections"
+    "collections",
+    "collections/vectors",
+    "collections/strings",
+    "collections/hash_map",
 ]

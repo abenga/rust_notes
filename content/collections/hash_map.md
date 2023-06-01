@@ -52,7 +52,7 @@ let mut scores = HashMap::new();
 scores.insert(String::from("Blue"), 10);
 
 scores.entry(String::from("Yellow")).or_insert(50);
-scores.entry(String::from("Blue")).or_insert(50);  // will not change "Blue" val
+scores.entry(String::from("Blue")).or_insert(50);  // Will not change "Blue" val
 
 println!("{:?}", scores); //>>> {"Blue": 10, "Yellow": 50}
 ```
@@ -96,5 +96,40 @@ for (key, value) in &scores {
 }
 ```
 
+## Updating
+
+```rust
+ use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+// Overwrite a value
+scores.insert(String::from("Blue"), 10);
+println!("{:?}", scores); //>>> "{"Blue": 10}"
+scores.insert(String::from("Blue"), 25);
+println!("{:?}", scores); //>>> "{"Blue": 25}"
+
+// Add a key only if a Key isn't present
+scores.entry(String::from("Yellow"), 20);
+println!("{:?}", scores); //>>> "{"Blue": 25, "Yellow": 20}" (order may be different)
+scores.entry(String::from("Blue"), 50);
+println!("{:?}", scores); //>>> "{"Blue": 25, "Yellow": 20}" (nothing changes)
+
+// Update value based on old value
+let text = "hello world wonderful world";
+
+let mut map = HashMap::new();
+
+for word in text.split_whitespace() {
+    let count = map.entry(word).or_insert(0);
+    *count += 1;
+}
+
+println!("{:?}", map); //>>> {"hello": 1, "world": 2, "wonderful": 1} (order may be different)
+```
+
 ## Hash maps and Ownership
 
+Fro types that implement the `Copy` trait, like `i32`, the values are copied
+into the hash map. For owned values like `String`, the values will be moved and
+the hash map will be the owner of those values.

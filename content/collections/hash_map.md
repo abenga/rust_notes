@@ -139,5 +139,5 @@ the hash map will be the owner of those values.
 By default, `HashMap` uses the [SipHash](https://en.wikipedia.org/wiki/SipHash)
 hashing function that provides resistance to DoS attacks involving hash tables.
 You can switch to another function with different tradeoffs by specifying a
-different *hasher* (a type that implements the `BuildHasher` trait) with
-different desired tradeoffs (speed, security).
+different *hasher* (a type that implements the `BuildHasher` trait) with some 
+other desired tradeoffs (speed, security).

@@ -47,13 +47,22 @@ println!("{:?}", file_open_result_1);
 //>>> Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })
 
 // Using a function that returns a result.
-let file_open_result_2 = File::open("some_file_that_may_exist.txt");
+let file_open_result_2 = File::open("file_name.txt");
 let opened_file = match file_open_result_2 {
     // instance of `Ok` that contains a file handle.
     Ok(file) => file,
 
-    // instance of `Err` that contains more info about failure.
-    Err(error) => panic!("Problem opening the file: {:?}", error),
+    // error is instance of `Err` that contains more info about failure.
+    Err(error) => match error.kind() {
+        // we can match on different errors
+        ErrorKind::NotFound => match File::create("file_name.txt") {
+            Ok(fc) => fc,
+            Err(e) => panic!("Problem creating the file: {e:?}"),
+        }
+        other_error => {
+            panic!("Problem opening the file: {:?}", other_error);
+        }
+    },
 };
 ```
 

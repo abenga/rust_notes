@@ -149,4 +149,12 @@ An array is a collection of multiple values that all have the same type.
 let a: [i32; 5] = [1, 2, 3, 4, 5];
 
 let a = [3; 5]  // Repeats the value 3 5 times.
+
+// Getting ith element in the array
+let i: usize = 0;
+let first_el = a[i];  // panics if index is not in array.
+
+let ith_el = a.get(i); // Returns Option<i32>, containing `Some(val)` if a val
+                       // exists at index i, `None` if i is out of bounds.
+
 ```

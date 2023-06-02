@@ -156,5 +156,4 @@ let first_el = a[i];  // panics if index is not in array.
 
 let ith_el = a.get(i); // Returns Option<i32>, containing `Some(val)` if a val
                        // exists at index i, `None` if i is out of bounds.
-
 ```

@@ -133,3 +133,69 @@ let greeting_file = File::open("hello.txt")
 In production-quality code, it is conventional to use `expect` rather than 
 `unwrap` and give more context about why the operation is expected to always
 succeed.
+
+## Propagating Errors
+
+When a function's implementation call something that might fail, instead of
+handling the error within the function itself, you can return the error to the
+calling code to decide what to do. This is known as *propagating* the error.
+
+```rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let username_file_result = File::open("hello.txt");
+
+    let mut username_file = match username_file_result {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    }
+
+    let mut username = String::new();
+
+    match username_file.read_to_string(&mut username) {
+        Ok(_) => Ok(username),
+        Err(e) => Err(e),
+    }
+}
+```
+
+The code that calls this `read_username_from_file` will then handle getting an
+`Ok` value that contains the username or an `Err` value that contains an 
+`io:Error`.
+
+We can use the `?` operator as a shortcut for this pattern of propagating 
+errors. The function thus becomes:
+
+```rust
+use std::fs::File;
+use std::io;
+use std::io::Read;
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut username_file = File::open("hello.txt")?;
+    let mut username = String::new();
+    username_file.read_to_string(&mut username)?;
+    Ok(username)
+}
+```
+
+The `?` placed after a `Result` value has the following meaning:
+
+*   If the value is an `Ok`, the value will be evaluated as the result of the 
+    expression, and the program will continue.
+
+*   If the value is an `Err`, the `Err` will be returned from the whole function
+    as if we had used the `return` keyword, so the value gets propagated into 
+    the calling code. Error values returned in this way go through the `from`
+    function and are converted into the error type defined in the return type of
+    the current function.
+
+    We can shorten the program even further by chaining the `?` calls:
+
+    ```rust
+    let mut username = String::new();
+    File::open("hello.txt")?.read_to_string(&mut username)?;
+    Ok(username)
+    ```

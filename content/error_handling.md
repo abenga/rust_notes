@@ -102,3 +102,34 @@ match result_2 {
 };
 //>>> error parsing header: "invalid version"
 ```
+
+## Shortcuts for Panic on Error: `unwrap` and `expect`
+
+`unwrap` is a shortcut method implemented to return the value inside the `Ok`
+variant. If the result is the `Err` variant, `unwrap` will call the `panic!` 
+macro.
+
+```rust
+let greeting_file = File::open("hello.txt").unwrap();
+//>>> 
+// thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: 
+// Os { code: 2, kind: NotFound, message: "No such file or directory" }', 
+// src/main.rs:21:49
+//note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+`expect` lets us also choose the `panic!` error message.
+
+```rust
+let greeting_file = File::open("hello.txt")
+        .expect("hello.txt should be included in this project");
+//>>>
+// thread 'main' panicked at 'hello.txt should be included in this project: 
+// Os { code: 2, kind: NotFound, message: "No such file or directory" }', 
+// src/main.rs:17:10
+//note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+In production-quality code, it is conventional to use `expect` rather than 
+`unwrap` and give more context about why the operation is expected to always
+succeed.

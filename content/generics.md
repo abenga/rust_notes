@@ -94,4 +94,3 @@ println!("p.x = {}", p.x());  //>>> p.x = 5
 There is no performance penalty for usin generics in code, since rust performs
 monomorphization of the code at compile time, i.e. generates an instance of 
 compiled code for each concrete type the generic code is called with.
-

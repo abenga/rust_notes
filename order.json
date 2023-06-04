@@ -7,5 +7,7 @@
     "collections/vectors",
     "collections/strings",
     "collections/hash_map",
-    "error_handling"
+    "error_handling",
+    "generics",
+    "generics/traits"
 ]

@@ -199,3 +199,18 @@ The `?` placed after a `Result` value has the following meaning:
     File::open("hello.txt")?.read_to_string(&mut username)?;
     Ok(username)
     ```
+
+    The `?` operator can only be used in functions whose return type is 
+    compatible with the value the `?` is used on. It can also be used when we 
+    want to return an `Option<T>` value, in which case it returns `None` in the
+    early return, not an `Err`.
+
+## When to Panic
+
+It is advisable to have code panic when it is possible that the program could
+end up in a bad state, i.e. some assumption, guarantee, contract, or invariant
+is broken, and:
+
+*   the bad state is unexpected, 
+*   the code after the point relies on not being in the bad state,
+*   or there isn't a good way to encode this information in the types we use.

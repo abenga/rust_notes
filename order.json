@@ -2,7 +2,7 @@
     "types",
 	"structs",
     "enums",
-    "packaging",
+    "module_system",
     "collections",
     "collections/vectors",
     "collections/strings",

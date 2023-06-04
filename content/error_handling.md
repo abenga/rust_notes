@@ -165,8 +165,8 @@ The code that calls this `read_username_from_file` will then handle getting an
 `Ok` value that contains the username or an `Err` value that contains an 
 `io:Error`.
 
-We can use the `?` operator as a shortcut for this pattern of propagating 
-errors. The function thus becomes:
+We can use the `?` operator as a shortcut to hide some of the boilerplate 
+involved in propagating errors up the call stack. The function thus becomes:
 
 ```rust
 use std::fs::File;
@@ -183,14 +183,14 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 The `?` placed after a `Result` value has the following meaning:
 
-*   If the value is an `Ok`, the value will be evaluated as the result of the 
-    expression, and the program will continue.
+*   If the value is an `Ok`, the unwrappedvalue will be evaluated as the result
+    of the expression, and the program will continue.
 
-*   If the value is an `Err`, the `Err` will be returned from the whole function
-    as if we had used the `return` keyword, so the value gets propagated into 
-    the calling code. Error values returned in this way go through the `from`
-    function and are converted into the error type defined in the return type of
-    the current function.
+*   If the value is an `Err`, the `Err` will be returned early from the 
+    enclosing function as if we had used the `return` keyword, so the value 
+    gets propagated into the calling code. Error values returned in this way 
+    go through the `from` function and are converted into the error type 
+    defined in the return type of the current function.
 
     We can shorten the program even further by chaining the `?` calls:
 

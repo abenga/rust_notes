@@ -23,7 +23,7 @@ Most errors are forseeable and recoverable.
 A function that  could get recoverable errors  usually returns the type
 `Result<T, E>`. This is defined in the module
 [`std::result`](https://doc.rust-lang.org/std/result/) and is brought into 
-scope by the prelude forall Rust programs. `Result` is an enum with the 
+scope by the prelude forall Rust programs. `Result` is an enum with the
 variants  `OK(T)` representing success and containing a value, and `Err(E)`
 representing the error and containing an error value. `T` and `E` are generic
 type parameters. `T` is type of the value to return in the success case, and 
@@ -186,10 +186,10 @@ The `?` placed after a `Result` value has the following meaning:
 *   If the value is an `Ok`, the unwrappedvalue will be evaluated as the result
     of the expression, and the program will continue.
 
-*   If the value is an `Err`, the `Err` will be returned early from the 
-    enclosing function as if we had used the `return` keyword, so the value 
-    gets propagated into the calling code. Error values returned in this way 
-    go through the `from` function and are converted into the error type 
+*   If the value is an `Err`, the `Err` will be returned early from the
+    enclosing function as if we had used the `return` keyword, so the value
+    gets propagated into the calling code. Error values returned in this way
+    go through the `from` function and are converted into the error type
     defined in the return type of the current function.
 
     We can shorten the program even further by chaining the `?` calls:

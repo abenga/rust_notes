@@ -7,4 +7,5 @@
     "collections/vectors",
     "collections/strings",
     "collections/hash_map",
+    "error_handling"
 ]

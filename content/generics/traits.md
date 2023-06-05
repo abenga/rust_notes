@@ -118,12 +118,10 @@ where
     T: Display + Clone,
     U: Clone + Debug,
 {}
-
 ```
-
 
 ## Returning Types that Implement Traits
 
-
-## Using Trait Bounds to Conditionally Implement Methods
-
+You can also use the `impl Trait` syntax in the return position to return a
+value of some type that implements a trait. However, you can only use
+`impl Trait` if you’re returning a single type.

@@ -5,30 +5,6 @@ without needing a garbage collector. This enables Rust programs to never have
 undefined behavior. The checks described here are done at compile time, not at
 run time.
 
-## Stack vs Heap Variables
-
-Every program has two pools of memory: the *stack* and the *heap*.
-
-The stack is an area of memory in which we add values, and can remove the last
-value that was added (pushed) onto the stack as functions are called and return. 
-We usually store primitive variable data owned by a function's local variables
-on the stack.
-
-The heap is an area of memory that is used to store data types that can grow and
-shrink like strings, vectors, etc, and values that can live longer than a single
-function's execution. We can use variables on the stack to refer to data on the
-heap using *pointers*.
-
-A box (`Box<T>`) provides the simplest form of heap allocation in rust.
-
-```rust
-let val: u8 = 5;
-let boxed: Box<u8> = Box::new(val);  // Moves a value from the stack to the heap
-
-let boxed_2 = Box<u8> = Box::new(5);
-let val: u8 = *boxed; // Move a value from a box back to the stack by dereferencing.
-```
-
 ## What is Ownership?
 
 The ownership system of Rust is a system that ensures that exactly one variable
@@ -83,3 +59,6 @@ println!("{:?}", y);
 // println!("{:?}", x); // commenting this out makes the code fail to compile, 
 //                      // as x no longer owns the vector and isn't accessible.
 ```
+
+Heap memory allocated to data owned by variables is not manually managed in 
+Rust. Rust automatically frees this memory when these variables go out of scope.

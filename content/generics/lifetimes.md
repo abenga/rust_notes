@@ -113,3 +113,35 @@ blocks.
 
 If the compiler applies all the rules and it still cannot figure out the
 lifetimes of some references, the compiler will stop with an error.
+
+## The Static Lifetime
+
+The `'static` lifetime denotes that the affected reference can live for the
+entire duration of the program. String literals are stored directly in the
+program's binary, and are always available. They have the `'static` lifetime.
+
+## Generic Type Parameters, Trait Bounds, and Lifetimes Together
+
+Example of a function that has generic type parameters, trait bounds, and
+lifetimes:
+
+```rust
+use std::fmt::Display;
+
+fn longest_with_an_announcement<'a, T>(
+    x: &'a str,
+    y: &'a str,
+    ann: T,
+) -> &'a str
+where
+    T: Display,
+{
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+

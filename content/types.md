@@ -150,10 +150,16 @@ evaluate to.
 
 ## Array
 
-An array is a collection of multiple values that all have the same type.
+An array is a fixed-size collection of multiple values that all have the same
+type. The type of an `N`-sized array of elements of type `T` is written as 
+`[T, N]`. The size is a constant expression that evaluates to a `usize`.
 
 ```rust
+// stack-allocated array.
 let a: [i32; 5] = [1, 2, 3, 4, 5];
+
+// heap-allocated array, coerced to a slice
+let a: Box<[i32]> = Box::new([1, 2, 3]);
 
 let a = [3; 5]  // Repeats the value 3 5 times.
 

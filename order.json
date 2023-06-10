@@ -10,5 +10,6 @@
     "collections/hash_map",
     "error_handling",
     "generics",
-    "generics/traits"
+    "generics/traits",
+    "generics/lifetimes"
 ]

@@ -1,20 +1,38 @@
 # Enumerations
 
 Allow us to define a type by enumerating its possible *variants*. An instance of
-the type can be one of the enumerated variants. For example, to represent an IP
-address, we can define the following enumeration:
+the type can be one of the enumerated variants. Any `enum` value uses as much 
+memory as the largest variant for its corresponding `enum` type, as well as the
+size needed to store a discriminant (integer locally associated to it that is
+used to determine which variant it holds, usually an `isize` value).
+
+An enumeration is a simultaneous definition of the enumerated type as well as
+a type of *constructors* that can be used to create or pattern-match values of
+the corresponding enumerated types.
+
+
+For example,
 
 ```rust
-enum IPAddr {
-    V4(u8, u8, u8, u8),
-    V6(String),
+enum Animal {
+    Dog,
+    Cat,
 }
-let dns_addr_ipv4 = IpAddr::V4(8, 8, 8, 8);
-let dns_addr_ipv6 = IpAddr::V6(String::from("2001:4860:4860::8888"));
+
+let mut a: Animal = Animal::Dog;
 ```
 
-Any `enum` value uses as much memory as the largest variant for its
-corresponding `enum` type, as well as the size needed to store a discriminant.
+enum constructors can have named or unnamed fields:
+
+```rust
+enum Animal {
+    Dog(String, f64),  // enum variant
+    Cat { name: String, weight: f64},  // struct-like enum variant
+}
+
+let d: Animal = Animal::Dog("Scooby Doo".to_string(), 75.0);
+let c: Animal = Animal::Cat{ name: "Garfield".to_string(), weight: 5.0 };
+```
 
 ## The `Option` Enum
 

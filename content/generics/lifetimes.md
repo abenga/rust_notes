@@ -56,6 +56,8 @@ borrow checker for its analysis.
 
 ## Lifetime Annotation Syntax
 
+### Lifetime Annotations in Function Signatures
+
 To use lifetime annotations in function signatures, we need to add generic
 lifetime parameters inside angle brackets between the function name and the
 parameter list. Lifetime annotations begin with an apostrophe (`'`) and are
@@ -64,6 +66,10 @@ with a space to separate the annotation from the reference's types.
 
 ```rust
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    // Annotations above mean that the lifetime of the reference returned
+    // from the function is the same as the smaller of the lifetimes of the
+    // values referred to as the function arguments. The compiler will reject
+    // any arguments that cannot satisfy this signature.
     if x.len() > y.len() {
         x
     } else {
@@ -71,3 +77,39 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     }
 }
 ```
+
+### Lifetime Annotation in Struct Definitions
+
+Sometimes we need structs to hold references. In this case, we would need to add
+a lifetime annotation on every reference in the struct's definition.
+
+```rust
+struct ImportantExcerpt<'a> {
+    part: &'a str,
+}
+```
+
+## Lifetime Elision
+
+The compiler uses three rules to figure out the lifetimes of references that
+aren't explicitly annotated. These rules apply to `fn` definitions and `impl`
+blocks.
+
+1.  The compiler assigns a different lifetime parameter to each lifetime in each
+    input type. For example:
+    *   `fn foo(x: &i32)` gets one lifetime parameter and becomes 
+        `fn foo<'a'>(x: &'a i32)`.
+    *   `fn foo(x: &i32, y: &i32)` would get two lifetime parameters and becomes
+        `fn foo<'a, 'b>(x: &'a i32, y: &'b i32)`.
+    *   The function `fn foo(x: &ImportantExcerpt` would get two lifetime 
+        parameters and become `fn foo<'a, 'b>(x: &'a ImportantExcerpt<'b'>)`.
+
+2.  If there is exactly one input lifetime parameter, that lifetime is assigned
+    to all output lifetime parameters: `fn foo<'a'>(x: &'a i32) -> &'a i32`.
+
+3.  If there are multiple input lifetime parameters, but one of them is `&self`
+    or `&mut self` because this is a method, the lifetime of `self` is assigned
+    to all output lifetime parameters.
+
+If the compiler applies all the rules and it still cannot figure out the
+lifetimes of some references, the compiler will stop with an error.

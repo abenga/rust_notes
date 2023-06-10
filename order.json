@@ -11,5 +11,6 @@
     "error_handling",
     "generics",
     "generics/traits",
-    "generics/lifetimes"
+    "generics/lifetimes",
+    "testing"
 ]

@@ -161,3 +161,16 @@ let first_el = a[i];  // panics if index is not in array.
 let ith_el = a.get(i); // Returns Option<i32>, containing `Some(val)` if a val
                        // exists at index i, `None` if i is out of bounds.
 ```
+
+## Textual Types
+
+`char` and `str` can hold textual data. 
+
+A `char` is a unicode scalar value, represented as a 32-bit unsigned word. It
+is undefined behaviour to define a `char` that falls outside the defined ranges
+of Unicode code points (0x0000 to 0xD7FF or 0xE000 to 0x10FFFF).
+
+A `str` is a slice of 8-bit unsigned bytes (it is represented the same way as 
+`[u8]`). Rust standard library methods working on `str` assume and ensure that
+data in a `str` is valid UTF-8. Since `str` is a dynamically sized type, it can
+only be instantiated through a pointer type, such as `&str`.

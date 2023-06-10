@@ -133,7 +133,8 @@ These group multiple values into one type.
 ### Tuples
 
 A tuple groups together several values with a variety of types into one compound
-type.
+type. Fields of tuples are named using increasing numeric names matching their
+position in the list of types.
 
 ```rust
 let tup: (i32, f64, u8) = (500, 6.4, 1);
@@ -142,7 +143,9 @@ let first = tup.0;  // Accessing a tuple element directly
 ```
 
 A tuple without any elements goes by ***unit***. It's value and type are written
-`()`. It represents an empty value or an empty return type.
+`()`. It represents an empty value or an empty return type. Various expressions
+will produce a unit value if there is no other meaningful value for it to
+evaluate to.
 
 
 ## Array

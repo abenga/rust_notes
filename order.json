@@ -1,10 +1,10 @@
 [
     "types",
+	"types/structs",
+    "types/enums",
+    "types/collections",
     "ownership",
-	"structs",
-    "enums",
     "module_system",
-    "collections",
     "collections/vectors",
     "collections/strings",
     "collections/hash_map",

@@ -1,6 +1,9 @@
 # Structs
 
-Defining:
+A `struct` type is a heterogeneous colleciton of other types, called the fields
+of the type.
+
+Defining a struct:
 
 ```rust
 // defining
@@ -49,6 +52,17 @@ let origin = Point(0, 0, 0);
 
 x = origin.0  // struct_var.index to access individual property
 ```
+
+Unit struct:
+
+```rust
+struct StructName;
+```
+
+Memory layout of a struct is undefined by default to alow for compiler
+optimizations, but may be fixed with the `repr` attribute. Fields may be given
+in any order in a corresponding struct expression; the resulting `struct` value
+will always have the same memory layout.
 
 ## Struct Methods
 

@@ -1,6 +1,6 @@
 # Enumerations
 
-Allow us to define a type by enumerating its possible variants. An instance of
+Allow us to define a type by enumerating its possible *variants*. An instance of
 the type can be one of the enumerated variants. For example, to represent an IP
 address, we can define the following enumeration:
 
@@ -12,6 +12,9 @@ enum IPAddr {
 let dns_addr_ipv4 = IpAddr::V4(8, 8, 8, 8);
 let dns_addr_ipv6 = IpAddr::V6(String::from("2001:4860:4860::8888"));
 ```
+
+Any `enum` value uses as much memory as the largest variant for its
+corresponding `enum` type, as well as the size needed to store a discriminant.
 
 ## The `Option` Enum
 

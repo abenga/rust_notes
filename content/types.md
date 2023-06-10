@@ -111,6 +111,10 @@ in size.
 let f: bool = false;
 ```
 
+Possible operations on boolean values are *logical not* (`!b`), *logical or* (
+`a | b`), *logical and* (`a & b`), *logical xor* (`a ^ b`), and *comparisons* (
+`a == b`, `a != b`, `a > b`, `a < b`, `a >= b`, or `a <= b`).
+
 ### Characters
 
 The `char` type is the language's most primitive alphabetic type. Rust `char`

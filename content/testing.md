@@ -100,3 +100,53 @@ $ cargo run -- --ignored
 
 ## Test Organization
 
+*   *Unit tests*: small and more focused, testing one module at a time.
+*   *Integration tests*: External to the library and use the code in the same
+    way any external code would, only using the public interface.
+
+### Unit Tests
+
+Usually put in the src directory in each file with the code that they are
+testing (see example above). It will be in a `tests` module inside each source
+file. The `#[cfg(test)]` annotation on the `tests` module tells Rust to compile
+and run the test only when we run `cargo test`. We are able to test private
+functions inside the test module.
+
+### Integration Tests
+
+Integration tests go in a `tests` directory outside the `src` directory:
+
+```
+square_roots
+├── Cargo.lock
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    └── integration_test.rs
+```
+
+We do not need to annotate the code in `integration_test.rs` with `#[cfg(test)]`
+as Rust treats the `tests` directory and only compiles the files in this
+directory when we are running `cargo test`.
+
+```rust
+use square_roots;
+
+#[test]
+fn compute_square_root_9() {
+    assert_eq!(square_roots::real_square_root(9.0_f64), 3.0_f64);
+}
+```
+
+Each file in the `tests` directory is a separate crate, so we need to bring the
+library being tested into each crate's scope.
+
+Tests are run in the order: unit tests, integration tests, and doc tests. If any
+test in a section fails, the following sections will not be run.
+
+If our project is a binary crate that only contains a `src/main.rs` file, we
+cannot create integration tests and bring functions defined in the `main.rs`
+file into scope with a `use` statement. This is why Rust projects that provide
+a binary have a straightforward `src/main.rs` that calls logic that lives in a
+`src/lib.rs` file.

@@ -9,8 +9,11 @@
     "ownership",
     "module_system",
     "error_handling",
+    "testing",
     "generics",
     "generics/traits",
     "generics/lifetimes",
-    "testing"
+    "functional_features",
+    "functional_features/closures",
+    "functional_features/iterators"
 ]

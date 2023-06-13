@@ -192,3 +192,9 @@ let square = |x| x * x;
 println!("square(5) = {}", call_with_five(square));
 //>>> square(5) = 625
 ```
+
+Note that functions can implement all three of the `Fn` traits too. If what we
+want to do doesn't require capturing a value from the environment, we can use
+the name of a function rather than a closure when we need something that
+implements one of the `Fn` traits, e.g. calling `unwrap_or_else(Vec::new)` when
+we want to get a new empty vector when a value is `None`.

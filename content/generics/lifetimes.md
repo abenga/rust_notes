@@ -1,12 +1,18 @@
 # Validating References with Lifetimes
 
-Every reference in Rust has a *lifetime*, which is the scope for which the
-reference is valid. Usually, they are implicit and inferred, starting when the
-variable is declared and ending when it goes out of scope. When inferring the
-lifetime of variables is not straightforward, Rust allows (more like requires)
-us to include information about lifetimes using *lifetime annotations*, added
-as generic lifetime parameters to ensure actual references used at runtime will
-be valid.
+Every variable binding in Rust has a *lifetime*, which is the scope for which
+it remains valid. Usually, they are implicit and inferred, starting when the
+variable is declared and ending when it goes out of scope.
+
+References are trickier, however, since they point to an address in memory
+without taking ownership of the data. This makes it more difficult to keep track
+of when they are valid, and may lead to issues like *dangling references* (that
+point to data that has already been freed - *use-after-free bugs*), etc.
+
+When inferring the lifetime of variables is not straightforward, Rust allows 
+(more like requires) us to include information about lifetimes using *lifetime
+annotations*, added as generic lifetime parameters to ensure actual references
+used at runtime will be valid.
 
 ## Data Should Outlive Its References
 

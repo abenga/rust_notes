@@ -25,3 +25,62 @@ parameters and the return type.
 
 ## Capturing References or Moving Ownership
 
+Closures can capture values from their environment in three ways: borrowing
+immutably, borrowing mutably, and taking ownership. The closure decides which
+of these to do based on what its body does with the captured values.
+
+* **Borrowing immutably**
+
+```rust
+let list = vec![1, 2, 3];
+println!("Before defining closure: {:?}", list);
+
+let only_borrows = || println!("From closure: {:?}", list);
+
+println!("before calling closure: {:?}", list);
+only_borrows();
+println!("after calling closure: {:?}", list);
+```
+
+* **Borrowing mutably**
+
+```rust
+let mut list = vec![1, 2, 3];
+println!("before defining closure: {:?}", list);
+
+let mut borrows_mutably = |x| list.push(x);
+
+borrows_mutably(4);
+borrows_mutably(5);
+println!("after calling closure: {:?}", list);
+//>>> after calling closure: [1, 2, 3, 4, 5]
+```
+
+* **Taking ownership of values**
+
+We move data into a closure by using the `move` keyword before the parameter
+list.
+
+```rust
+let list = vec![1, 2, 3];
+println!("before defining closure: {:?}", list);
+
+let mut moves_into_closure = move || println!("{:?}", list);
+
+moves_into_closure();
+println!("after calling closure: {:?}", list);
+```
+
+This is mostly useful when passing a closure to a new thread to move the data so
+that it is owned by the new thread.
+
+```rust
+use std::thread;
+// ...
+thread::spawn(move || println!("from thread: {:?}", list))
+    .join()
+    .unwrap();
+```
+
+## Moving Captured Values Out of Closures and the `Fn` Traits
+

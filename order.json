@@ -1,6 +1,6 @@
 [
     "types",
-	"types/structs",
+    "types/structs",
     "types/enums",
     "types/collections",
     "types/collections/vectors",

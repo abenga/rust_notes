@@ -93,17 +93,102 @@ kinds of closures they can use. Closures will automatically implement one, two,
 or three of these `Fn` traits in additive fashion depending on how the closure's
 body handles the values:
 
-1.  `FnOnce` applies to all closures that can be called once. All closures
-    implement at least this trait, because all closures can be called. A closure
-    that moves captured values out of its body will only implement `FnOnce` and
-    none of the other `Fn` traits because it can only be called once.
+### `FnOnce`
 
-2.  `FnMut` applies to closures that don't move captured values out of their
-    body, but that might mutate the captured values. These closures can be
-    called more than once.
+[`FnOnce`](https://doc.rust-lang.org/std/ops/trait.FnOnce.html) applies to all
+closures that can be called once. All closures implement at least this trait,
+because all closures can be called. A closure that moves captured values out of
+its body will only implement `FnOnce` and none of the other `Fn` traits because
+it can only be called once.
 
-3.  `Fn` applies to closures that don't move captured values out of their body
-    and don't mutate captured values, as well as closures that capture nothing
-    from their environment. These closures can be called more than once without
-    mutating their environmnet, which is important in cases such as calling a
-    closure multiple types concurrently.
+We should use `FnOnce` as a bound when we want to accept a parameter of
+function-like type and only need to call it once.
+
+```rust
+fn consume_with_relish<F>(func: F)
+    where F: FnOnce() -> String
+{
+    println!("Consumed: {}", func());
+    println("Delicious!");
+}
+
+let x = String::from("Hello");
+let consume_and_return_x = move || x;
+consume_with_relish(consume_and_return_x)
+
+// consume_and_return_x can no longer be invoked at this point.
+```
+
+### `FnMut`
+
+[`FnMut`](https://doc.rust-lang.org/std/ops/trait.FnMut.html) applies to
+closures that don't move captured values out of their body, but that might
+mutate the captured values. These closures can be called more than once. `FnMut`
+is implemented automatically by closures that take mutable references to
+captured variables, as well as all types that implement `Fn` (since `FnMut` is
+a supertrait of `Fn`).
+
+Use `FnMut` when you want to accept a parameter of function-like type and need
+to call it repeatedly, while allowing it to mutate state.
+
+```rust
+let mut x = 5;
+{
+    let mut square = || x *= x;
+    square(x)
+}
+println!(x);
+//>>> 25
+```
+
+using an `FnMut` parameter:
+
+```rust
+fn do_twice<F>(mut func: F)
+    where F: FnMut()
+{
+    func();
+    func();
+}
+
+let mut x = 5;
+{
+    let mut square = || x *= x;
+    do_twice(square);
+}
+println!("{}", x);
+//>>> 625
+```
+
+### `Fn`
+
+[`Fn`](https://doc.rust-lang.org/std/ops/trait.Fn.html) applies to closures that
+don't move captured values out of their body and don't mutate captured values,
+as well as closures that capture nothing from their environment. These closures
+can be called more than once without mutating their environment, which is
+important in cases such as calling a closure multiple types concurrently.
+
+Since both `FnMut` and `FnOnce` are supertraits of `Fn`, any instance of `Fn`
+can be used as a parameter where a `FnMut` or `FnOnce` is expected.
+
+Calling an instance of `Fn`:
+
+```rust
+let square = |x| x * x;
+println!("square(5) = {}", square(5));
+//>>> square(5) = 625
+```
+
+Using a `Fn` parameter:
+
+```rust
+fn call_with_five<F>(func: F) -> usize
+    where F: Fn(usize) -> usize
+{
+    func(5)
+}
+
+let square = |x| x * x;
+println!("square(5) = {}", call_with_five(square));
+//>>> square(5) = 625
+```

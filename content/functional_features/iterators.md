@@ -43,3 +43,41 @@ mutable references, we can call `iter_mut` instead of `iter`.
 
 ## Methods that Consume the Iterator
 
+Methods that call `next` on an iterator are called *consuming adaptors* because
+calling them uses up the iterator.
+
+```rust
+fn iterator_sum() {
+    let v1 = vec![1, 2, 3];
+    let v1_iter = v1.iter();
+
+    let total: i32 = v1_iter.sum();
+    // cannot use v1_iter after the call to `sum` because `sum` takes 
+    // ownership of the iterator we call it on.
+
+    println!("{}", total);
+    //>>> 6
+}
+```
+
+## Methods that Produce Other Iterators
+
+*Iterator adaptors* are methods defined on the `Iterator` trait that don't
+consume the iterator. Instead, they produce different iterators by changing some
+aspect of the original iterator.
+
+```rust
+let v1 = vec![1, 2, 3];
+
+let v2: Vec<_> = v1.iter().map(|x| x * x).collect();
+
+println!("{:?}", v2);  //>>> [1, 4, 9]
+println!("{:?}", v1);  //>>> [1, 2, 3]
+```
+
+You can chain multiple calls to iterator adaptors to perform complex actions in
+a readable way. But because all iterators are lazy, you have to call one of the
+consuming adaptor methods to get results from calls to iterator adaptors.
+
+## Using Closures that Capture Their Environment
+

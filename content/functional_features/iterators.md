@@ -81,3 +81,6 @@ consuming adaptor methods to get results from calls to iterator adaptors.
 
 ## Using Closures that Capture Their Environment
 
+Many iterator adaptors take closures as arguments, and commonly the closures
+we'll specify as arguments to iterator adaptors will be closures that capture
+their environment.

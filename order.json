@@ -17,5 +17,7 @@
     "functional_features/closures",
     "functional_features/iterators",
     "pointers",
-    "pointers/box"
+    "pointers/box",
+    "pointers/rc",
+    "pointers/ref"
 ]

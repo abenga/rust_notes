@@ -74,3 +74,37 @@ ownership system. If the `deref` method returned the value directly instead of a
 reference to the value, the value would be moved out of `self`. We usually do
 not want to take ownership of the inner value inside `MyBox<T>` in most cases
 when we use the dereference operator.
+
+## Implicit Deref Coercions with Functions and Methods
+
+*Deref coercion* converts a reference to a type that implements the `Deref`
+trait into a reference to another type. For example, deref coercion can convert
+a `&String` to `&str` because `String` implements the `Deref` trait such that
+it returns `&str`. It happens automatically when we pass a reference to a
+particular type's value as an argument to a funciton or method that doesn't
+match the parameter type in the function or method definition. A sequence of
+calls to the `deref` method converts the type we provided into the type the
+parameter needs.
+
+```rust
+fn hello(name: &str) {
+    println!("Hello, {name}");
+}
+
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);  // &m is a reference to a `MyBox<String>`. Rust turns the
+                // &MyBox<String> into `&String` by calling `deref`.
+                // The standard library provides an implementation of `Deref`
+                // on `String` that returns a string slice. Rust calls `deref`
+                // again to turn the `&String` into `&str`, which matches the
+                // `hello` functions definition.
+}
+```
+
+If Rust didn't implement deref coercion, we would have to explicitly write
+`hello(&(*m)[..])`.
+
+In addition to the convenience of not needing to explicitly write all these
+dereferences, deref coercion allows us to writemore code that can work for both
+references and smart pointers.

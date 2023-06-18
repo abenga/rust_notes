@@ -19,5 +19,6 @@
     "pointers",
     "pointers/box",
     "pointers/rc",
-    "pointers/ref"
+    "pointers/ref",
+    "pointers/reference_cycles"
 ]

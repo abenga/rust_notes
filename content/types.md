@@ -159,7 +159,7 @@ type. The type of an `N`-sized array of elements of type `T` is written as
 let a: [i32; 5] = [1, 2, 3, 4, 5];
 
 // heap-allocated array, coerced to a slice
-let a: Box<[i32]> = Box::new([1, 2, 3]);
+let a: Box<[i32]> = Box::new([1, 2, 3]);  // see pointers/box
 
 let a = [3; 5]  // Repeats the value 3 5 times.
 

@@ -49,3 +49,8 @@ fn main() {
     let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 }
 ```
+
+Boxes provide only indirection and heap allocation; they do not have any other
+special capabilities, like those we will see with other smart pointer types.
+They also don't have any performance overhead, so they are useful in cases when
+indirection is all we need.

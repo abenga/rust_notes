@@ -108,3 +108,16 @@ If Rust didn't implement deref coercion, we would have to explicitly write
 In addition to the convenience of not needing to explicitly write all these
 dereferences, deref coercion allows us to writemore code that can work for both
 references and smart pointers.
+
+## Deref Coercion and Mutability
+
+You can use the `DerefMut` trait to override the `*` operator on mutable
+references. Rust does deref coercion when it finds types and trait
+implementations in three cases:
+
+* From `&T` to `&U` when `T: Deref<Target=U>` - same as discussed above.
+* From `mut &T` to `&mut U` when `T: DerefMut<Target=U>` - mutable reference to
+  mutable reference.
+* From `mut &T` to `&U` when `T: Deref<Target=U>` - Rust coerces a mutable
+  reference to an immutable one, but will not coerce an immutable reference to
+  an mutable reference.

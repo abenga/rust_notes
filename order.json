@@ -19,6 +19,7 @@
     "pointers",
     "pointers/box",
     "pointers/deref_trait",
+    "pointers/drop_trait",
     "pointers/rc",
     "pointers/ref",
     "pointers/reference_cycles"

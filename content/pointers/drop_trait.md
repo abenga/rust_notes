@@ -24,3 +24,9 @@ scope.
 
 ## Dropping a Value Early with `std::mem::drop`
 
+Rust does not allow us to call a types `drop` method, since this will result in
+a *double free* error (we free the value, then Rust tries to free it at the end
+of its scope a second time).
+
+The `std::mem::drop` function allows us to force drop a value, passing it the
+value we want to force drop as an argument.

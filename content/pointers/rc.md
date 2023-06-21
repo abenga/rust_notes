@@ -18,3 +18,24 @@ rules to clean it up when that part goes out of scope.
 `Rc<T>` is only for use in single-threaded scenarios.
 
 ## Using `Rc<T>` to Share Data
+
+```rust
+enum List {
+    Cons(i32, Rc<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+use std::rc::Rc;  // Rc is not in the prelude
+
+fn main() {
+    let a  = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    let b = Cons(3::Rc::clone(&a));
+    let c = Cons(4: Rc::clone(&a));
+}
+```
+
+The calls to `Rc::clone(&ref)` do not make a deep copy of all the data. It only
+increments the reference count, which is quick. We use `Rc::clone` to make it
+easy to distinguish between the deep-copy clones and the clones that only
+increase the reference count.

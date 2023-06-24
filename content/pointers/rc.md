@@ -30,12 +30,24 @@ use std::rc::Rc;  // Rc is not in the prelude
 
 fn main() {
     let a  = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    println!("ref count of &a = {}", Rc::strong_count(&a)); // ref count = 1
     let b = Cons(3::Rc::clone(&a));
-    let c = Cons(4: Rc::clone(&a));
+    println!("ref count of &a = {}", Rc::strong_count(&a)); // ref count = 2
+    {
+        let c = Cons(4: Rc::clone(&a));
+        println!("ref count of &a = {}", Rc::strong_count(&a)); // ref count = 3
+    }
+    // c goes out of scope
+    println!("ref count of &a = {}", Rc::strong_count(&a)); // ref count = 2
 }
 ```
 
 The calls to `Rc::clone(&ref)` do not make a deep copy of all the data. It only
 increments the reference count, which is quick. We use `Rc::clone` to make it
 easy to distinguish between the deep-copy clones and the clones that only
-increase the reference count.
+increase the reference count. The implementation of the `Drop` trait for `Rc<T>`
+decreases the reference count automatically when an `Rc<T>` value goes out of
+scope.
+
+These references are immutable, `Rc<T>` allows you to share data between
+multiple parts of your program for reading only.

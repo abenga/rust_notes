@@ -17,7 +17,15 @@ Examples of smart pointers:
 
 *   `String`
 *   `Vec<T>`
-*   `Box<T>` - Allocates values on the heap
-*   `Rc<T>` - Enables multiple ownership
-*   `Ref<T>` and `RefMut<T>`, accessed through `RefCell<T>`, a type that
-    enforces the borrowing rules at runtime instead of compile time.
+*   `Box<T>`
+    *   Allocates values on the heap.
+    *   Has a single owner.
+    *   Allows immutable or mutable borrows checked at compile time.
+*   `Rc<T>`
+    *   Enables multiple ownership.
+    *   Only allows immutable borrows checked at compile time.
+*   `Ref<T>` and `RefMut<T>`, accessed through `RefCell<T>`,
+    *   Enforces the borrowing rules at runtime instead of compile time.
+    *   Allows mutating of values inside the `RefCell<T>` even when the
+        `RefCell<T>` is immutable. (*interior mutability pattern*)
+

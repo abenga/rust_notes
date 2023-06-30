@@ -62,6 +62,8 @@ not expensive, and should be preferred over the other cell types when possible.
     value.
 
 ```rust
+use std::cell::Cell;
+
 let a: Cell<u8> = Cell::new(8);
 
 let b = a.get();
@@ -79,3 +81,72 @@ println!("{}", d);  //>>> 32
 
 ### `RefCell<T>`
 
+`RefCell<T>` uses Rust's lifetimes to implement "dynamic borrowing", a process
+by which we claim temporary, exclusive, mutable access to the inner value. These
+borrows are tracked at runtime. `RefCell<T>` does this by providing the methods:
+
+*   `borrow`: enables us to obtain an immutable reference to a `RefCell`'s inner
+    value (`&T`). The borrow lasts until the returned reference exits scope.
+    It panics if the value is currently mutably borrowed.
+*   `borrow_mut`: enables us to perform a mutable borrow (`&mut T`). The borrow
+    lasts until the retuned mutable reference or all mutable references derived
+    from it exit scope. The value cannot be borrowed again while this borrow is
+    active. If the value is already borrowed, the thread will panic.
+*   `try_borrow`: Immutably borrows the wrapped value, returning an error if the
+    value is currently mutably borrowed. The borrow lasts until the `Ref` exits
+    scope.
+*   `try_borrow_mut`: Mutably borrows the wrapped value, returning an error if
+    the value is currently borrowed. The borrow lasts until the `Ref` exits
+    scope.
+
+Immutable borrows:
+
+```rust
+use std::cell::RefCell;
+
+let c = RefCell::new(5);
+
+let borrowed = c.borrow();
+let borrowed2 = c.borrow();
+println!("{}, {}", borrowed, borrowed2);
+//>>> 5, 5
+```
+
+Mutable borrow:
+
+```rust
+let c = RefCell::new(5);
+println!("{:?}", c);  //>>> RefCell { value: 5 }
+{
+    let mut borrowed_mut = c.borrow_mut();
+    *borrowed_mut += 1;
+}
+println!("{:?}", c);  //>>> RefCell { value: 6 }
+```
+
+Failed mutable borrow:
+
+```rust
+use std::cell::RefCell;
+
+let c = RefCell::new(5);
+
+let borrowed = c.borrow();
+let mut borrowed_mut = c.borrow_mut(); // This causes a panic
+//>>> thread 'main' panicked at 'already borrowed: BorrowMutError', src/main.rs:17:34
+//>>> note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+Non-panicking variant of `borrow`:
+
+```rust
+use std::cell::RefCell;
+
+let c = RefCell::new(5);
+
+let mut borrowed_mut = c.borrow_mut();
+let borrowed = c.try_borrow();
+println!("{:?}", borrowed);  //>>> Err(BorrowError)
+```
+
+`try_borrow_mut` does something similar, only returning `Err(BorrowMutError)`.

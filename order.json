@@ -21,6 +21,6 @@
     "pointers/deref_trait",
     "pointers/drop_trait",
     "pointers/rc",
-    "pointers/refcell",
+    "pointers/cells",
     "pointers/reference_cycles"
 ]

@@ -61,6 +61,21 @@ not expensive, and should be preferred over the other cell types when possible.
 *   `set`: (for all types) replaces the interior value, dropping the replaced
     value.
 
+```rust
+let a: Cell<u8> = Cell::new(8);
+
+let b = a.get();
+println!("{}, {:?}", b, a);  //>>> 8, Cell { value: 8 }
+
+let c = a.replace(16);
+println!("{}, {:?}", c, x);  //>>> 8, Cell { value: 16 }
+
+a.set(32);
+println!("{:?}", x);  //>>> Cell { value: 32 }
+
+let d = a.into_inner(); // we cannot access `a` after this, it is consumed.
+println!("{}", d);  //>>> 32
+```
 
 ### `RefCell<T>`
 

@@ -25,4 +25,5 @@
     "pointers/reference_cycles",
     "concurrency",
     "concurrency/threads"
+    "useful_libraries"
 ]

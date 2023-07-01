@@ -38,3 +38,10 @@ Concurrent programs may be written using these approaches:
 *   ***Threads***: Threads are logical flows that run in the context of a single
     process and are scheduled by the kernel. They share the same virtual address
     space like I/O multiplexing flows.
+
+Concurrent programming and parallel programming are becoming increasingly
+important as more computers take advantage of multiple processors. Programming
+in this context is difficult and error prone, but Rust hopes to change this. By
+leveraging ownership and type checking, many concurrency errors are compilation
+errors rather than runtime errors. This allows us to write code that is free of
+subtle bugs and is easy to refactor without introducing new bugs.

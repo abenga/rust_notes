@@ -22,5 +22,7 @@
     "pointers/drop_trait",
     "pointers/rc",
     "pointers/cells",
-    "pointers/reference_cycles"
+    "pointers/reference_cycles",
+    "concurrency",
+    "concurrency/threads"
 ]

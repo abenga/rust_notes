@@ -25,17 +25,38 @@ use std::sync::mpsc::channel;
 let (tx, rx) = channel();
 
 let sender = thread::spawn(move || {
-    tx.send("Hello, thread".to_owned())
-        .expect("Unable to send on channel");
+    let vals = vec![
+        String::from("series"),
+        String::from("of"),
+        String::from("messages"),
+        String::from("from"),
+        String::from("producing"),
+        String::from("thread"),
+    ]
+
+    for val in vals {
+        tx.send(val).unwrap();
+        thread::sleep(Duration::from_secs(1));
+    }
 });
 
 let receiver = thread::spawn(move || {
-    let value = rx.recv().expect("Unable to receive from channel");
-    println!("{}", value);
+    for received in rx {
+        println!("{}", received);
+    }
 });
 
 sender.join().expect("The sender thread has panicked");
 receiver.join().expect("The receiver thread has panicked");
+
+// This will print:
+//>>> series
+//>>> of
+//>>> messages
+//>>> from
+//>>> producing
+//>>> thread
+// With a 1 second delay between each line
 ```
 
 The receiver has two useful methods `recv` and `try_recv`. `recv` will block

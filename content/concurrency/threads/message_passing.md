@@ -56,7 +56,7 @@ receiver.join().expect("The receiver thread has panicked");
 //>>> from
 //>>> producing
 //>>> thread
-// With a 1 second delay between each line
+// With a 1 second delay after printing each line
 ```
 
 The receiver has two useful methods `recv` and `try_recv`. `recv` will block

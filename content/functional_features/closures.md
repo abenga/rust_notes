@@ -68,7 +68,8 @@ println!("before defining closure: {:?}", list);
 let mut moves_into_closure = move || println!("{:?}", list);
 
 moves_into_closure();
-println!("after calling closure: {:?}", list);
+// Attempting to use `list` here will lead to a compilation error as it will
+// be attempting to borrow a value after moving it.
 ```
 
 This is mostly useful when passing a closure to a new thread to move the data so

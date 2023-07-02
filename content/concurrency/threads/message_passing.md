@@ -70,3 +70,6 @@ immediately: an `Ok` value holding a message if one is available, and an `Err`
 message if there aren't any messages at this time. `try_recv` is useful when
 we want to periodically check for a message (in a loop, say) while doing other
 useful work.
+
+We can create multiple producers by cloning the transmitter (for example by
+calling `tx.clone()` in the example above), which gives us the `m` in `mpsc`.

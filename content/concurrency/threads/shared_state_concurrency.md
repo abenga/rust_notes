@@ -8,3 +8,23 @@ thread is modifying it. The term *critical section* is used ot refer to a
 section of code that accesses a shared resource and whose execution should be
 *atomic*, i.e. its execution should not be interrupted by another thread that
 simulataneously accesses the same shared resource.
+
+## Using Mutexes to Allow Access to Data From One Thread at a Time
+
+To avoid the problems that can occur when threads try to update a variable at
+the same time, we must use a *mutex* (abbreviation for *mutual exclusion*) to
+only allow one thread to access the variable at the a given time. A mutex has
+two states: *locked* and *unlocked*. At any moment, at most one thread may hold
+the lock on the mutex, and a thread must first signal that it wants access by
+asking to acquire the mutex's lock.
+
+A mutex is described as *guarding* the data it holds via the locking system.
+When using a mutex:
+
+*   You must attempt to acquire the lock before using the data.
+*   When you're done with the data the mutex guards, you must unlock the data
+    so other threads can acquire the lock.
+
+Thanks to Rust's type system and ownership rules, you can't get locking and
+unlocking wrong.
+

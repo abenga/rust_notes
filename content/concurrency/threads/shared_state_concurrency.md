@@ -26,3 +26,25 @@ When using a mutex:
 
 Thanks to Rust's type system and ownership rules, you can't get locking and
 unlocking wrong.
+
+## The API of `Mutex<T>`
+
+We create a `Mutex<T>` using the associated function `new`. To access the data
+inside the mutex, we use the `lock` method to acquire the lock. The call will
+block the current thread so it can't do any work until it's our turn to have the
+lock.
+
+```rust
+use std::sync::Mutex;
+
+let m = Mutex::new(5);
+
+{
+    let mut num = m.lock().unwrap();
+    *num = 6;
+}
+
+println!("m = {:?}", m);
+//>>> m = Mutex { data: 6, poisoned: false, .. }
+// Inner value has been changed.
+```

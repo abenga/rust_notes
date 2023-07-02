@@ -25,5 +25,6 @@
     "pointers/reference_cycles",
     "concurrency",
     "concurrency/threads"
+    "concurrency/threads/message_passing"
     "useful_libraries"
 ]

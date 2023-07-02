@@ -16,7 +16,7 @@ fn  add_one_v1   (x: u32) -> u32 { x + 1 }   // Function definition.
 
 let add_one_v2 = |x: u32| -> u32 { x + 1 };  // These closure definitions
 let add_one_v3 = |x|             { x + 1 };  // all produce the same behaviour
-let add_one_v3 = |x|               x + 1  ;  // when called.
+let add_one_v4 = |x|               x + 1  ;  // when called.
 ```
 
 For closure definitions, the compiler will infer one concrete type for each of

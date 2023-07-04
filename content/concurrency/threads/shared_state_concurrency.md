@@ -48,3 +48,30 @@ println!("m = {:?}", m);
 //>>> m = Mutex { data: 6, poisoned: false, .. }
 // Inner value has been changed.
 ```
+
+## Sharing a Mutex Between Threads
+
+We can share a `Mutex<T>` between threads, as in the example below:
+
+```rust
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+let counter = Arc::new(Mutex::new(0));
+let mut handles = vec![];
+
+for _ in 0..10 {
+    let counter = Arc::clone(&counter);
+    let handle = thread::spawn(move || {
+        let mut num = counter.lock().unwrap();
+        *num += 1;
+    });
+    handles.push(handle);
+}
+
+for handle in handles {
+    handle.join().unwrap();
+}
+
+println!("Result: {}", *counter.lock().unwrap());
+```

@@ -51,7 +51,10 @@ println!("m = {:?}", m);
 
 ## Sharing a Mutex Between Threads
 
-We can share a `Mutex<T>` between threads, as in the example below:
+We can share a `Mutex<T>` between threads using `Arc<T>`, a type like `Rc<T>`
+but that is safe to use in concurrent situations. The *a* stands for *atomic*
+
+Example of use:
 
 ```rust
 use std::sync::{Arc, Mutex};

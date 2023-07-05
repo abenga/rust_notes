@@ -26,5 +26,6 @@
     "concurrency",
     "concurrency/threads"
     "concurrency/threads/message_passing"
+    "concurrency/threads/sync_and_send"
     "useful_libraries"
 ]

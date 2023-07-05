@@ -52,7 +52,7 @@ println!("m = {:?}", m);
 ## Sharing a Mutex Between Threads
 
 We can share a `Mutex<T>` between threads using `Arc<T>`, a type like `Rc<T>`
-but that is safe to use in concurrent situations. The *a* stands for *atomic*
+but that is safe to use in concurrent situations. The *a* stands for *atomic*.
 
 Example of use:
 
@@ -66,6 +66,7 @@ let mut handles = vec![];
 for _ in 0..10 {
     let counter = Arc::clone(&counter);
     let handle = thread::spawn(move || {
+        // `Mutex<T>` provides interior mutability.
         let mut num = counter.lock().unwrap();
         *num += 1;
     });
@@ -78,3 +79,7 @@ for handle in handles {
 
 println!("Result: {}", *counter.lock().unwrap());
 ```
+
+When using mutexes, watch out for the risk of creating *deadlocks*. These occur
+when two threads need to lock two resources, but each of them has a lock on one
+mutex, leading to both waiting for each other forever.

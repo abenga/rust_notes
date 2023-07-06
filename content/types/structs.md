@@ -76,7 +76,9 @@ will always have the same memory layout.
 We can use `impl` block to define struct methods on any struct type we define.
 In a type's `impl` block, `Self` is an alias for the type. Use `.` to refer to
 associated functions that have `self` as their first parameter, and `::` to
-refer to those that don't.
+refer to those that don't. These latter type of methods are functions associated
+with the type itself, also referred to as *static methods*. An example is the
+`Vec::new()` function for vectors that provides a constructor function.
 
 ```rust
 #[derive(Debug)]
@@ -95,3 +97,6 @@ impl Rectangle {
 	}
 }
 ```
+
+A struct can have many separate `impl` blocks for a single type, but they must
+all be in the same crate that defines that type.

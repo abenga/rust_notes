@@ -243,3 +243,35 @@ is broken, and:
 *   the bad state is unexpected, 
 *   the code after the point relies on not being in the bad state,
 *   or there isn't a good way to encode this information in the types we use.
+
+## Declaring a Custom Error Type
+
+You can define a custom error type as follows:
+
+```rust
+
+use std;
+use std::fmt;
+
+#[derive(Debug, Clone)]
+pub struct CustomError {
+    pub message: String,
+    pub line: usize,
+    pub column: usize,
+}
+
+// make error printable
+impl fmt::Display for CustomError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        write!(f, "{} ({}:{})", self.message, self.line, self.column)
+    }
+}
+
+// implement the std::error::Error trait
+impl std::error::Error for CustomError {
+    fn description(&self) -> &str {
+        &self.message
+    }
+}
+
+```

@@ -1,9 +1,11 @@
 # Structs
 
-A `struct` type is a heterogeneous colleciton of other types, called the fields
-of the type.
+A `struct` type is a heterogeneous collection of other types, called the fields
+of the type, that are handled as a unit. A struct can have methods associated
+with it that operate on its components. Rust has three kinds of struct types:
+*named-field structs*, *tuple structs*, and *unit structs*.
 
-Defining a struct:
+A named-field struct gives a name to each field of a struct:
 
 ```rust
 // defining
@@ -41,9 +43,10 @@ let z = StructName {
 }
 ```
 
-Tuple structs:
+Tuple structs identify fields by the order in which they appear:
 
 ```rust
+// Defined just like tuples, but must include struct name.
 struct Color(i32, i32, i32);  // Color and Point are different types
 struct Point(i32, i32, i32);
 
@@ -53,7 +56,11 @@ let origin = Point(0, 0, 0);
 x = origin.0  // struct_var.index to access individual property
 ```
 
-Unit struct:
+Named-field structs are usually more legible and easier for the user; we will
+usually use tuple structs when we usually use pattern matching to find the
+struct elements.
+
+Unit structs do not have any fields at all:
 
 ```rust
 struct StructName;
@@ -66,9 +73,10 @@ will always have the same memory layout.
 
 ## Struct Methods
 
-Use `impl` block to define struct methods. In a type's `impl` block, `Self` is
-an alias for the type. Use `.` to erfer to associated functions that have `self`
-as their first parameter, and `::` to refer to those that don't.
+We can use `impl` block to define struct methods on any struct type we define.
+In a type's `impl` block, `Self` is an alias for the type. Use `.` to refer to
+associated functions that have `self` as their first parameter, and `::` to
+refer to those that don't.
 
 ```rust
 #[derive(Debug)]

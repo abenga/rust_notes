@@ -11,10 +11,17 @@ macro that causes the program to terminate immediately and provide feedback to
 the caller.
 
 When a panic occurs, the program starts *unwinding*, and Rust walks back up the
-stack and cleans up the data from each function it encounters. This is not 
-trivial, however, and Rust provides the alternative of immediately *aborting*,
-which ends the program without cleaning up. The host OS will then need to clean
-up the memory that was in use by the program.
+stack and cleans up the data from each function it encounters. If the panicking
+thread was the main thread, the whole process exits with a non-zero exit code.
+Unwinding is designed to be safe, and will not leave a dangling pointer or a
+non-initialized value in memory.
+
+Rust also provides the alternative of immediately *aborting*, which ends the
+program without cleaning up. The host OS will then need to clean up the memory
+that was in use by the program. Abortin happens if cleaning up during a panic
+triggers a second panic. If a Rust program is compiled with `-C panic=abort`
+flag, the first panic in the program immediately aborts the process. Binaries
+compiled this way would be smaller.
 
 ## Recoverable Errors with `Result`
 
@@ -23,7 +30,7 @@ Most errors are forseeable and recoverable.
 A function that  could get recoverable errors  usually returns the type
 `Result<T, E>`. This is defined in the module
 [`std::result`](https://doc.rust-lang.org/std/result/) and is brought into 
-scope by the prelude forall Rust programs. `Result` is an enum with the
+scope by the prelude for all Rust programs. `Result` is an enum with the
 variants  `OK(T)` representing success and containing a value, and `Err(E)`
 representing the error and containing an error value. `T` and `E` are generic
 type parameters. `T` is type of the value to return in the success case, and 
@@ -183,7 +190,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 The `?` placed after a `Result` value has the following meaning:
 
-*   If the value is an `Ok`, the unwrappedvalue will be evaluated as the result
+*   If the value is an `Ok`, the unwrapped value will be evaluated as the result
     of the expression, and the program will continue.
 
 *   If the value is an `Err`, the `Err` will be returned early from the

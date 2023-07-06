@@ -27,14 +27,16 @@ compiled this way would be smaller.
 
 Most errors are forseeable and recoverable.
 
-A function that  could get recoverable errors  usually returns the type
-`Result<T, E>`. This is defined in the module
+A function that could get recoverable errors usually returns the type
+`Result<T, E>`, which indicates possible failure. This is defined in the module
 [`std::result`](https://doc.rust-lang.org/std/result/) and is brought into 
 scope by the prelude for all Rust programs. `Result` is an enum with the
-variants  `OK(T)` representing success and containing a value, and `Err(E)`
-representing the error and containing an error value. `T` and `E` are generic
-type parameters. `T` is type of the value to return in the success case, and 
-`E` is the type of the error that will be returned in the error case.
+variants  `OK(T)` representing success and containing a value of type `T`, and
+`Err(E)` representing the error and containing an error value of type `E`. `T`
+and `E` are generic type parameters.
+
+Whenever a `Result<T>` value is returned, Rust requires us to handle the error
+explicitly, and a compiler warning is raised if a `Result` value isn't used.
 
 ```rust
 enum Result<T, E> {  
@@ -211,6 +213,26 @@ The `?` placed after a `Result` value has the following meaning:
     compatible with the value the `?` is used on. It can also be used when we 
     want to return an `Option<T>` value, in which case it returns `None` in the
     early return, not an `Err`.
+
+## Commonly used `Result` methods
+
+*   `result.is_ok()` and `result.is_err()` return `bool` values telling us if
+    the result is a success or an error.
+*   `result.ok()` returns the success value, if any, as an `Option<T>`.
+*   `result.err()` returns the error value, if any, as an `Option<E>`.
+*   `result.unwrap()` returns the success value on success, or panics on error.
+*   `result.unwrap_or(fallback)` returns the success value, if `result` is a
+    success result, otherwise returns `fallback`, discarding the error value.
+*   `result.unwrap_or_else(fallback_fn)` returns the success value on success
+    or the value of computing `fallback_fn()` (`fallback_fn` is a function or a
+    closure).
+*   `result.expect(message)` is the same as `.unwrap()`, but prints `message` on
+    panic.
+
+In case one does not want to consume the result, we can use `result.as_ref()` to
+borrow a reference, or `result.as_mut()` to borrow a mutable reference, which
+allows us to access the value inside the result without destroying it. Their
+return values are `Result<&T, &E>` and `Result<&mut T, &mut E>` respectively.
 
 ## When to Panic
 

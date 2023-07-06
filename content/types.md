@@ -13,7 +13,9 @@ These are whole numbers. Rust has the following built-in integer data types:
 | Data Type | Min Value | Max Value |
 |-----------|-----------|-----------|
 | `i8`      |    $-128$ |     $127$ |
-| `u8`      |       $0$ |     $255$ |
+| `u8`*     |       $0$ |     $255$ |
+
+\* generally used for byte values (e.g. streams read from a file or a socket).
 
 * **16-bit numbers**
 
@@ -80,6 +82,15 @@ and 127 would be
 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 ```
 
+### Literals
+
+You can use a suffix to identify the type of an integer literal, e.g. `62u8`.
+We can use the prefixes `0x`, `0o`, and `0b` in hexadecimal, octal, and binary
+literals.
+
+To aid readability when typing out literals, we can separate digits using
+underscores, e.g. to group thousands, e.g. `9_876_543_210`.
+
 ### Integer Overflow
 
 If an operation whose result is to be stored in an integer results in a value
@@ -92,6 +103,19 @@ variable will have a different value than expected.
 
 Rust provides ***wrapping***, ***checked***, ***overflowing***, and 
 ***saturating*** methods to explicitly handle the possibility of overflow.
+
+### Casting
+
+We can convert from one integer type to another using the `as` operator.
+
+```rust
+assert_eq!(10_i8 as u16, 10_u16);
+```
+
+Conversions that are out of range for the destination produce values that are
+equivalent to the original modulo $2^N$, where $N$ is the width of the
+destination in bits.
+
 
 ### Floating-Point Numbers
 
@@ -115,16 +139,12 @@ Possible operations on boolean values are *logical not* (`!b`), *logical or* (
 `a | b`), *logical and* (`a & b`), *logical xor* (`a ^ b`), and *comparisons* (
 `a == b`, `a != b`, `a > b`, `a < b`, `a >= b`, or `a <= b`).
 
-### Characters
+Unlike in other languages that couldassign the concept of "truthiness" to other
+types, boolean values are the only types that are usable in contexts where a
+Boolean type is required, e.g. as the condition in an `if` statement.
 
-The `char` type is the language's most primitive alphabetic type. Rust `char`
-types are four bytes in size and represent a Unicode Scalar Value.
-
-```rust
-let c = 'z';
-let z: char = 'ℤ'; // with explicit type annotation
-let heart_eyed_cat = '😻';
-```
+Rust uses an entire byte for a `bool` value in memory, though it only requires
+a byte, so that we can create a pointer to it.
 
 ## Compound Types
 
@@ -139,16 +159,20 @@ position in the list of types.
 ```rust
 let tup: (i32, f64, u8) = (500, 6.4, 1);
 let (x, y, z) = tup;  // Use pattern matching to destructure a tuple value.
-let first = tup.0;  // Accessing a tuple element directly
+let first = tup.0;  // You can accesss a tuple element directly as t.0, t.1, ...
 ```
+
+Rust code may use tuple types to return multiple values from a function, from
+which we can use pattern-matching destructuring to assign each element of the
+return value to another variable.
 
 A tuple without any elements goes by ***unit***. It's value and type are written
 `()`. It represents an empty value or an empty return type. Various expressions
 will produce a unit value if there is no other meaningful value for it to
-evaluate to.
+evaluate to. It is the implicit return type for a function which has no
+meaningful return value.
 
-
-## Array
+## Arrays
 
 An array is a fixed-size collection of multiple values that all have the same
 type. The type of an `N`-sized array of elements of type `T` is written as 
@@ -173,13 +197,55 @@ let ith_el = a.get(i); // Returns Option<i32>, containing `Some(val)` if a val
 
 ## Textual Types
 
-`char` and `str` can hold textual data. 
+`char` and `str` can hold textual data.
+
+### The `char` type
+
+The `char` type is the language's most primitive alphabetic type. Rust `char`
+types are four bytes (32 bits) in size and represent a Unicode Scalar Value.
+
+```rust
+let c = 'z';
+let z: char = 'ℤ'; // with explicit type annotation
+let heart_eyed_cat = '😻';
+```
 
 A `char` is a unicode scalar value, represented as a 32-bit unsigned word. It
 is undefined behaviour to define a `char` that falls outside the defined ranges
-of Unicode code points (0x0000 to 0xD7FF or 0xE000 to 0x10FFFF).
+of Unicode code points (0x0000 to 0xD7FF or 0xE000 to 0x10FFFF). Rust uses the
+type system and dynamic checks to ensure `char` values are always in the
+permitted range.
+
+### The `str` type
 
 A `str` is a slice of 8-bit unsigned bytes (it is represented the same way as 
 `[u8]`). Rust standard library methods working on `str` assume and ensure that
 data in a `str` is valid UTF-8. Since `str` is a dynamically sized type, it can
 only be instantiated through a pointer type, such as `&str`.
+
+## Pointer Types
+
+These are types that represent memory addresses.
+
+### References
+
+References are Rust's basic pointer type. It can point to a value on the stack
+or the heap. A reference to a variable x is written as `&x`, and has type `&T`,
+where `x: T`. Given a reference `r`, the expression we get the value that it
+points to using the expression `*r`.
+
+A reference does not automatically free the data it points to when it goes out
+of scope. Types are immutable by default, i.e. `&T` is the type of a mutable
+reference to a variable of type T. Mutable references have the type `&mut T`.
+There can be any number of immutable references to a variable or one mutable
+reference. Never both.
+
+### Boxes
+
+A box is a pointer that points at a value on the heap.
+
+### Raw Pointers
+
+Raw pointers are unsafe pointers. Rust does not track what they point to, and
+they may be null, or point to already freed memory. They are just like C
+pointers, with all the attendant issues.

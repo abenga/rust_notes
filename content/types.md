@@ -172,11 +172,13 @@ will produce a unit value if there is no other meaningful value for it to
 evaluate to. It is the implicit return type for a function which has no
 meaningful return value.
 
-## Arrays
+### Arrays
 
 An array is a fixed-size collection of multiple values that all have the same
 type. The type of an `N`-sized array of elements of type `T` is written as 
-`[T, N]`. The size is a constant expression that evaluates to a `usize`.
+`[T; N]`. The size is a constant expression determined at compile time that
+evaluates to a `usize`. If you need an array whose length varies at runtime, use
+a `Vec<T>`.
 
 ```rust
 // stack-allocated array.
@@ -194,6 +196,21 @@ let first_el = a[i];  // panics if index is not in array.
 let ith_el = a.get(i); // Returns Option<i32>, containing `Some(val)` if a val
                        // exists at index i, `None` if i is out of bounds.
 ```
+
+### Vectors
+
+The type `Vec<T>` is a dynamically allocated, growable sequence of values of
+type `T`. The vector's data lives on the heap, so it can be manipulated as
+desired.
+
+More details on vectors can be found in `types/collections/vectors`.
+
+### Slices
+
+The types `&[T]` and `&mut [T]` (*shared slice of `T`s* or *mutable slices of
+`T`s*) are references to a series of elements that are part of some other value,
+like an array or vector. A slice has a pointer to the first element, and a count
+of the number of elements in the slice.
 
 ## Textual Types
 

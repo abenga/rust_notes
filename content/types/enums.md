@@ -11,6 +11,9 @@ An enumeration is a simultaneous definition of the enumerated type as well as
 a type of *constructors* that can be used to create or pattern-match values of
 the corresponding enumerated types.
 
+Enumerations can have methods like structs. We just have to add an `impl` block.
+
+## Enums without Data
 
 We can have simple, C-style enums, for example
 
@@ -42,7 +45,7 @@ You can cast from an enum to an integer, but the reverse cast (from integer to
 enum) is not allowed, as an arbitrary integer could be a value not listed in the
 enumeration.
 
-Enumerations can have methods like structs. We just have to add an `impl` block.
+## Enums without Data
 
 `enum` constructors can have named or unnamed fields:
 

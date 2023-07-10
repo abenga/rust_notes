@@ -42,10 +42,9 @@ enum HttpStatus {
 ```
 
 You can cast from an enum to an integer, but the reverse cast (from integer to
-enum) is not allowed, as an arbitrary integer could be a value not listed in the
-enumeration.
+enum) is not allowed, as an arbitrary integer could be missing from the enum.
 
-## Enums without Data
+## Enums with Data
 
 `enum` constructors can have named or unnamed fields:
 
@@ -61,8 +60,8 @@ let c: Animal = Animal::Cat{ name: "Garfield".to_string(), weight: 5.0 };
 
 ## The `Option` Enum
 
-`Option` is a predefined enum in the Rust standard library. It can take one of
-two values - `Some(data)` or `None`.
+`Option` is a predefined generic enum in the Rust standard library. It can take
+one of two values - `Some(data)` or `None`.
 
 ```rust
 enum Option<T> {

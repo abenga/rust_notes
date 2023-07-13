@@ -190,8 +190,8 @@ The patterns can be:
   for example when you want to match on the `Person` struct, but only lift the
   person's `name` and `age` fields.
 
-* ***Reference*** - `ref` patterns borrow parts of a matched value, e.g. in the
-  previous example, in
+* ***Reference patterns*** - `ref` patterns borrow parts of a matched value,
+  e.g. in the previous example, in
 
     ```rust
     match person {
@@ -236,8 +236,19 @@ The patterns can be:
   match arm. The match succeeds only if the guard evaluates to `true`. For
   example `Some(val) if val % 2 == 0` would only match if `val` is even. 
 
+* **`@` patterns** - `x @ pattern` matches the given `pattern`, but on success
+  of creating variables for parts of the matched value, it creates a single
+  variable `x` and moves or copies the whole value into it.
 
+    ```rust
+    match value {
+        sq @ Shape::Square(..) => { // do some stuff with sq },
+    }
+    ```
 
+Patterns can also be used in `let` expressions, to unpack a composite function
+argument, iterate over a list of composite functions, or to automatically
+dereference an argument to a closure.
 
 ## `if let`
 
